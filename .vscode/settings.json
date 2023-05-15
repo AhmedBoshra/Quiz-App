@@ -1,0 +1,16 @@
+{
+  "editor.quickSuggestions": {
+    "other": "off"
+  },
+  "editor.quickSuggestionsDelay": 1000,
+  "editor.inlineSuggest.enabled": false,
+  "editor.acceptSuggestionOnCommitCharacter": false,
+  "[json]": {
+    "editor.quickSuggestions": {
+      "other": "off",
+      "strings": "off"
+    }
+  },
+  "editor.hover.above": false,
+  "editor.hover.enabled": false
+}
