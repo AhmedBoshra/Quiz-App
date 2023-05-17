@@ -54,7 +54,4 @@ function validateUser(user) {
 }
 
 // Export the User model and validateUser function
-module.exports = {
-  User,
-  validateUser,
-};
+module.exports = { User, validateUser };
