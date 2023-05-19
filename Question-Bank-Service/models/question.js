@@ -10,7 +10,7 @@ const answerSchema = new mongoose.Schema({
 // Create the Answer model based on the question schema
 const Answer = mongoose.model("Answer", answerSchema);
 
-// Define the question schema
+// Define the schema for the questions
 const questionSchema = new mongoose.Schema({
   id: { type: String, required: true },
   name: { type: String, required: true },

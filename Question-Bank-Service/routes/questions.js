@@ -1,47 +1,34 @@
 const express = require("express");
 const router = express.Router();
-const { Question } = require("../models/question");
+const {
+  getQuestionById,
+  createQuestion,
+  getAllQuestions,
+  updateQuestion,
+  addAnswerToQuestion,
+  deleteAnswerFromQuestion,
+  deleteQuestion,
+} = require("../controllers/controllers");
 
-router.post("/questions", async (req, res) => {
-  try {
-    // Extract the question data from the request body
-    const {
-      id,
-      name,
-      category,
-      subcategory,
-      mark,
-      expectedTime,
-      correctAnswers,
-      createdBy,
-      answers,
-    } = req.body;
+// Create and Save question
+router.post("/questions", createQuestion);
 
-    // Create a new question object using the Question model
-    const question = new Question({
-      id,
-      name,
-      category,
-      subcategory,
-      mark,
-      expectedTime,
-      correctAnswers,
-      createdBy,
-      answers,
-    });
+// Get Question by ID
+router.get("/questions/:id", getQuestionById);
 
-    // Save the question to the database
-    const savedQuestion = await question.save();
+// Get all questions
+router.get("/questions", getAllQuestions);
 
-    // Respond with the saved question as the result
-    res.status(201).json(savedQuestion);
-  } catch (error) {
-    // Handle any errors that occur during the creation process
-    console.error("Error: ", error);
-    res
-      .status(500)
-      .json({ error: "An error occurred while creating the question." });
-  }
-});
+// Update a question
+router.put("/questions/:id", updateQuestion);
+
+// Add answer to a question
+router.post("/questions/:id/answers", addAnswerToQuestion);
+
+// Delete an answer from a question
+router.delete("/questions/:id/answers/:answerId", deleteAnswerFromQuestion);
+
+// Delete a question
+router.delete("/questions/:id", deleteQuestion);
 
 module.exports = router;
