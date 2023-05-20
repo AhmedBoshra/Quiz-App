@@ -1,5 +1,4 @@
-const { User, validateUser } = require("../models/user");
-const express = require("express");
+const { User } = require("../models/user");
 
 function isSuperAdmin(userType) {
   return userType === "superadmin";

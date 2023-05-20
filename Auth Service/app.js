@@ -1,15 +1,13 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
-const users = require("./routes/users");
-const auth = require("./routes/auth");
+const routes = require("./routes/routes");
 
 const app = express();
 
 // Middlewares
 app.use(bodyParser.json());
-app.use("/api/users", users);
-app.use("/api/auth", auth);
+app.use("/api", routes);
 
 // Connect to MongoDB
 mongoose

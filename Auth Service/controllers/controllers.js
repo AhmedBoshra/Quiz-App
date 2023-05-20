@@ -2,16 +2,12 @@ const {
   isSuperAdmin,
   canCreateAdminUser,
   isUserAlreadyRegistered,
-} = require("./userChecks");
-const jwt = require("jsonwebtoken");
-require("dotenv").config();
+} = require("../utils/userChecks");
 const { User, validateUser } = require("../models/user");
-const mongoose = require("mongoose");
-const express = require("express");
-const router = express.Router();
 const bcrypt = require("bcrypt");
 
-router.post("/", async (req, res) => {
+// Registering new users
+async function signUp(req, res) {
   try {
     // Assigning inputs
     const { username, password, userType } = req.body;
@@ -36,7 +32,7 @@ router.post("/", async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Create a new user
-    user = new User({
+    const user = new User({
       username,
       password: hashedPassword,
       userType,
@@ -56,6 +52,47 @@ router.post("/", async (req, res) => {
     console.log(error);
     res.status(500).send("Internal server error");
   }
-});
+}
 
-module.exports = router;
+// Sign users in
+async function signIn(req, res) {
+  try {
+    // Assigning inputs
+    const { username, password } = req.body;
+
+    // const { error } = validate(req.body);
+    // if (error) return res.status(400).send(error.details[0].message);
+
+    // Check if user already exists
+    let user = await User.findOne({ username });
+    if (!user) return res.status(400).send("Invalid User!");
+
+    // Check if Password is valid
+    const validPassword = await bcrypt.compare(password, user.password);
+    if (!validPassword) return res.status(400).send("Invalid Password!");
+
+    const token = user.generateAuthToken();
+
+    // Return success message, userType, and JWT token
+    res.send({
+      message: "User loggedin successfully",
+      userType: user.userType,
+      token: token,
+    });
+
+    // Catching error
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Internal server error");
+  }
+}
+
+// function validate(req) {
+//   const schema = {
+//     username: Joi.string().min(5).max(5).required(),
+//     password: Joi.string().min(5).max(1024).required(),
+//   };
+//   return Joi.validate(req, schema);
+// }
+
+module.exports = { signUp, signIn };
