@@ -1,6 +1,5 @@
 const {
   isSuperAdmin,
-  canCreateAdminUser,
   isUserAlreadyRegistered,
 } = require("../utils/userChecks");
 const { User, validateUser } = require("../models/user");
@@ -12,17 +11,12 @@ async function signUp(req, res) {
     // Assigning inputs
     const { username, password, userType } = req.body;
 
-    // const { error } = validateUser(req.body);
-    // if (error) return res.status(400).send(error.details[0].message);
+    const { error } = validateUser(req.body);
+    if (error) return res.status(400).send(error.details[0].message);
 
     // Check if the requesting user is superadmin
     if (isSuperAdmin(userType))
       return res.status(403).send("Superadmin cannot be created!");
-
-    // // Check if the user creating the user is SUPER_ADMIN
-    // if (userType !== "superadmin") {
-    //   return res.status(403).send("Only SUPER_ADMIN can create ADMIN users");
-    // }
 
     // Check if user already exists
     if (await isUserAlreadyRegistered(username))
@@ -60,8 +54,8 @@ async function signIn(req, res) {
     // Assigning inputs
     const { username, password } = req.body;
 
-    // const { error } = validate(req.body);
-    // if (error) return res.status(400).send(error.details[0].message);
+    const { error } = validate(req.body);
+    if (error) return res.status(400).send(error.details[0].message);
 
     // Check if user already exists
     let user = await User.findOne({ username });
@@ -87,12 +81,12 @@ async function signIn(req, res) {
   }
 }
 
-// function validate(req) {
-//   const schema = {
-//     username: Joi.string().min(5).max(5).required(),
-//     password: Joi.string().min(5).max(1024).required(),
-//   };
-//   return Joi.validate(req, schema);
-// }
+function validate(req) {
+  const schema = {
+    username: Joi.string().min(5).max(5).required(),
+    password: Joi.string().min(5).max(1024).required(),
+  };
+  return Joi.validate(req, schema);
+}
 
 module.exports = { signUp, signIn };

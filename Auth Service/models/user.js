@@ -43,14 +43,14 @@ const User = mongoose.model("User", userSchema);
 
 // Validate user data using Joi
 function validateUser(user) {
-  const schema = {
+  const schema = Joi.object().keys({
     username: Joi.string().min(5).max(5).required(),
     password: Joi.string().min(5).max(1024).required,
     userType: Joi.string()
       .valid("student", "teacher", "admin", "superadmin")
       .required(),
-  };
-  return schema.validate(user);
+  });
+  return schema.validateAsync(user);
 }
 
 // Export the User model and validateUser function

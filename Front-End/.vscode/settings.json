@@ -1,0 +1,5 @@
+{
+  "editor.snippetSuggestions": "inline",
+  "emmet.showSuggestionsAsSnippets": true,
+  "editor.parameterHints.enabled": false
+}
