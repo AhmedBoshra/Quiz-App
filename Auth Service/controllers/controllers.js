@@ -11,9 +11,6 @@ async function signUp(req, res) {
     // Assigning inputs
     const { username, password, userType } = req.body;
 
-    const { error } = validateUser(req.body);
-    if (error) return res.status(400).send(error.details[0].message);
-
     // Check if the requesting user is superadmin
     if (isSuperAdmin(userType))
       return res.status(403).send("Superadmin cannot be created!");
@@ -53,9 +50,6 @@ async function signIn(req, res) {
   try {
     // Assigning inputs
     const { username, password } = req.body;
-
-    const { error } = validate(req.body);
-    if (error) return res.status(400).send(error.details[0].message);
 
     // Check if user already exists
     let user = await User.findOne({ username });

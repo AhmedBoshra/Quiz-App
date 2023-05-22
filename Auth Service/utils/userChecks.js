@@ -8,4 +8,4 @@ async function isUserAlreadyRegistered(username) {
   return (await User.findOne({ username })) !== null;
 }
 
-module.exports = { isSuperAdmin, canCreateAdminUser, isUserAlreadyRegistered };
+module.exports = { isSuperAdmin, isUserAlreadyRegistered };
