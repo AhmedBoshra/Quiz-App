@@ -1,0 +1,19 @@
+{
+  "editor.quickSuggestions": {
+    "other": "on"
+  },
+  "editor.quickSuggestionsDelay": 10,
+  "editor.inlineSuggest.enabled": true,
+  "editor.acceptSuggestionOnCommitCharacter": true,
+  "[json]": {
+    "editor.quickSuggestions": {
+      "other": "on",
+      "strings": "on"
+    }
+  },
+  "editor.hover.above": true,
+  "editor.hover.enabled": true,
+  "editor.inlineSuggest.showToolbar": "onHover",
+  "editor.suggest.showInterfaces": true,
+  "editor.inlineSuggest.suppressSuggestions": true
+}
