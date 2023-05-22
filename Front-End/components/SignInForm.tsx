@@ -5,7 +5,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 const schema = z.object({
   username: z.string().min(5),
   password: z.string().min(5),
-  userType: z.enum(["teacher", "student", "admin"]),
 });
 
 type FormData = z.infer<typeof schema>;
@@ -66,30 +65,6 @@ const Form = () => {
               )}
             </div>
 
-            {/* usertype selection */}
-            <div className="mb-3">
-              <label htmlFor="userType" className="form-label">
-                Select Usertype
-              </label>
-              <select
-                {...register("userType")}
-                className="form-select form-select-lg border-primary"
-                id="userType"
-                style={{
-                  backgroundColor: "#f8f9fa",
-                  border: "1px solid #ced4da",
-                  padding: "0.5rem",
-                }}
-              >
-                <option value="">Select usertype</option>
-                <option value="teacher">Teacher</option>
-                <option value="student">Student</option>
-              </select>
-              {errors.userType && (
-                <p className="text-danger">{errors.userType.message}</p>
-              )}
-            </div>
-
             {/* Button */}
             <div className="text-center">
               <button
@@ -98,7 +73,7 @@ const Form = () => {
                 type="submit"
                 style={{ marginTop: "10px" }}
               >
-                Submit
+                Login
               </button>
             </div>
           </form>
