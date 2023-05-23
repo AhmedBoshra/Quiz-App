@@ -1,6 +1,7 @@
 import { FieldValues, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import axios from "axios";
 
 const schema = z.object({
   username: z.string().min(5),
@@ -16,7 +17,16 @@ const Form = () => {
     handleSubmit,
     formState: { errors, isValid },
   } = useForm<FormData>({ resolver: zodResolver(schema) });
-  const onSubmit = (data: FieldValues) => console.log(data);
+
+  const onSubmit = async (data: FieldValues) => {
+    // sending data to database
+    try {
+      await axios.post("http://localhost:3000/api/signup", data); // Replace "/api/signup" with your server's API endpoint
+      console.log("Form submitted successfully");
+    } catch (error) {
+      console.error("Error submitting form:", error);
+    }
+  };
 
   return (
     <div

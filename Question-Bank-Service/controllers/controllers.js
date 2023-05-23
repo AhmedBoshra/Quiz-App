@@ -206,7 +206,7 @@ async function deleteQuestion(req, res) {
     const { id } = req.params;
 
     // Find the question by ID and delete it
-    const deletedQuestion = await Question.findOneAndDelete({ id });
+    const deletedQuestion = await Question.findOneAndDelete({ _id: id });
 
     if (!deletedQuestion) {
       return res.status(404).json({ error: "Question not found" });
