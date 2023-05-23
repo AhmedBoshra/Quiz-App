@@ -11,9 +11,11 @@ function App() {
   return (
     <div>
       <Routes>
-        <Route path="/" Component={UserProfile} />
+        <Route path="/" Component={SignInForm} />
+        <Route path="/signup" Component={SignUpForm} />
         <Route path="/questions" Component={QuestionBankPage} />
         <Route path="/createquestion" Component={CreateQuestionForm} />
+        <Route path="/profile" Component={UserProfile} />
       </Routes>
     </div>
   );

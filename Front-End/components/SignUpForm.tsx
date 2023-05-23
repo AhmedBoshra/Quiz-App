@@ -21,7 +21,7 @@ const Form = () => {
   const onSubmit = async (data: FieldValues) => {
     // sending data to database
     try {
-      await axios.post("http://localhost:3000/api/signup", data); // Replace "/api/signup" with your server's API endpoint
+      await axios.post("http://localhost:3000/api/signup", data);
       console.log("Form submitted successfully");
     } catch (error) {
       console.error("Error submitting form:", error);
@@ -66,7 +66,7 @@ const Form = () => {
                 Password
               </label>
               <input
-                {...register("password")}
+                {...register("password", { required: true })}
                 id="password"
                 type="password"
                 className="form-control border-primary"
@@ -82,7 +82,7 @@ const Form = () => {
                 Select Usertype
               </label>
               <select
-                {...register("userType")}
+                {...register("userType", { required: true })}
                 className="form-select form-select-lg border-primary"
                 id="userType"
                 style={{

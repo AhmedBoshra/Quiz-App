@@ -1,6 +1,9 @@
 import { FieldValues, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import axios from "axios";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const schema = z.object({
   username: z.string().min(5),
@@ -15,7 +18,32 @@ const Form = () => {
     handleSubmit,
     formState: { errors, isValid },
   } = useForm<FormData>({ resolver: zodResolver(schema) });
-  const onSubmit = (data: FieldValues) => console.log(data);
+
+  const [signInError, setSignInError] = useState<string>("");
+  const navigate = useNavigate();
+
+  const onSubmit = async (data: FieldValues) => {
+    setSignInError("");
+
+    try {
+      // Send sign-in request to your backend and handle the response
+      const response = await axios.post(
+        "http://localhost:3000/api/signin",
+        data
+      );
+      console.log(response.data);
+
+      navigate("/profile", {
+        state: {
+          username: response.data.username,
+          userType: response.data.userType,
+        },
+      });
+    } catch (error) {
+      // Handle any network or server errors
+      console.error("Sign-in error:", error);
+    }
+  };
 
   return (
     <div

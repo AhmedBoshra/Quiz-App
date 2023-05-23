@@ -64,6 +64,7 @@ async function signIn(req, res) {
     // Return success message, userType, and JWT token
     res.send({
       message: "User loggedin successfully",
+      username: user.username,
       userType: user.userType,
       token: token,
     });
