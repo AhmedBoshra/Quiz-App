@@ -5,7 +5,6 @@ async function createQuestion(req, res) {
   try {
     // Extract the question data from the request body
     const {
-      id,
       name,
       category,
       subcategory,
@@ -18,7 +17,6 @@ async function createQuestion(req, res) {
 
     // Create a new question object using the Question model
     const question = new Question({
-      id,
       name,
       category,
       subcategory,

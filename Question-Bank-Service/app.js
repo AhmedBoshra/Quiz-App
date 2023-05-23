@@ -2,6 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const questionRoutes = require("./routes/questions");
+const { connectDB } = require("./db");
 
 const app = express();
 
@@ -12,13 +13,7 @@ app.use(bodyParser.json());
 app.use("/api", questionRoutes);
 
 // Connecting MongoDB
-mongoose
-  .connect("mongodb://127.0.0.1:27017/questionsDB", {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => console.log("connected to MongoDB ..."))
-  .catch((err) => console.error("Could not connect to MongoDB", err));
+connectDB();
 
 // Start the server
 app.listen(3000, () => {

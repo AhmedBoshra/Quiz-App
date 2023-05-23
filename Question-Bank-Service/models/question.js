@@ -2,7 +2,6 @@ const mongoose = require("mongoose");
 
 // Define the schema for the answers
 const answerSchema = new mongoose.Schema({
-  id: { type: String, required: true },
   name: { type: String, required: true },
   description: { type: String, required: true },
 });
@@ -12,7 +11,6 @@ const Answer = mongoose.model("Answer", answerSchema);
 
 // Define the schema for the questions
 const questionSchema = new mongoose.Schema({
-  id: { type: String, required: true },
   name: { type: String, required: true },
   category: { type: String, required: true },
   subcategory: { type: String, required: true },
