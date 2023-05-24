@@ -54,7 +54,6 @@ async function signIn(req, res) {
     // Check if user already exists
     let user = await User.findOne({ username });
     if (!user) return res.status(400).send("Invalid User!");
-
     // Check if Password is valid
     const validPassword = await bcrypt.compare(password, user.password);
     if (!validPassword) return res.status(400).send("Invalid Password!");

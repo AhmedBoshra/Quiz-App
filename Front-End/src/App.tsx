@@ -6,16 +6,31 @@ import UserProfile from "../components/UserProfile";
 import QuestionBankPage from "../components/QuestionBank";
 import CreateQuestionForm from "../components/CreateQuestion";
 import EditQuestionForm from "../components/EditQuestions";
+import Navbar from "../components/Navbar";
+import { useState } from "react";
+import CreateAdmin from "../components/CreateAdmin"; // Import CreateAdmin component
 
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
   return (
     <div>
+      <Navbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} />
       <Routes>
-        <Route path="/" Component={SignInForm} />
-        <Route path="/signup" Component={SignUpForm} />
-        <Route path="/questions" Component={QuestionBankPage} />
-        <Route path="/createquestion" Component={CreateQuestionForm} />
-        <Route path="/profile" Component={UserProfile} />
+        <Route
+          path="/"
+          element={<SignInForm setIsLoggedIn={setIsLoggedIn} />}
+        />
+        <Route
+          path="/signin"
+          element={<SignInForm setIsLoggedIn={setIsLoggedIn} />}
+        />
+        <Route path="/signup" element={<SignUpForm />} />
+        <Route path="/questions" element={<QuestionBankPage />} />
+        <Route path="/createquestion" element={<CreateQuestionForm />} />
+        <Route path="/profile" element={<UserProfile />} />
+        <Route path="/createadmin" element={<CreateAdmin />} />{" "}
+        {/* Add CreateAdmin route */}
       </Routes>
     </div>
   );

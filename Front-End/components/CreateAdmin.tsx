@@ -2,52 +2,36 @@ import { FieldValues, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 const schema = z.object({
   username: z.string().min(5),
   password: z.string().min(5),
+  userType: z.enum(["admin"]),
 });
 
 type FormData = z.infer<typeof schema>;
 
-interface FormProps {
-  setIsLoggedIn: (isLoggedIn: boolean) => void;
-}
+const CreateAdmin = () => {
+  const [submitSuccess, setSubmitSuccess] = useState(false);
 
-const Form: React.FC<FormProps> = ({ setIsLoggedIn }) => {
   const {
     register,
     handleSubmit,
     formState: { errors, isValid },
   } = useForm<FormData>({ resolver: zodResolver(schema) });
 
-  const [signInError, setSignInError] = useState<string>("");
-  const navigate = useNavigate();
-
   const onSubmit = async (data: FieldValues) => {
-    setSignInError("");
-
+    // Sending data to the database
     try {
-      // Send sign-in request to your backend and handle the response
-      const response = await axios.post(
-        "http://localhost:3000/api/signin",
-        data
-      );
-      console.log(response.data);
-      // Update authentication status
-      setIsLoggedIn(true);
-
-      navigate("/profile", {
-        state: {
-          username: response.data.username,
-          userType: response.data.userType,
-        },
-      });
+      await axios.post("http://localhost:3000/api/signup", data);
+      setSubmitSuccess(true);
+      setTimeout(() => {
+        setSubmitSuccess(false);
+      }, 2000);
+      console.log("Form submitted successfully");
     } catch (error) {
-      // Handle any network or server errors
-      console.error("Sign-in error:", error);
+      console.error("Error submitting form:", error);
     }
   };
 
@@ -67,7 +51,7 @@ const Form: React.FC<FormProps> = ({ setIsLoggedIn }) => {
               padding: "20px",
             }}
           >
-            {/* username  */}
+            {/* Username */}
             <div className="mb-3">
               <label htmlFor="name" className="form-label">
                 Username
@@ -83,19 +67,41 @@ const Form: React.FC<FormProps> = ({ setIsLoggedIn }) => {
               )}
             </div>
 
-            {/* password */}
+            {/* Password */}
             <div className="mb-3">
               <label htmlFor="password" className="form-label">
                 Password
               </label>
               <input
-                {...register("password")}
+                {...register("password", { required: true })}
                 id="password"
                 type="password"
                 className="form-control border-primary"
               />
               {errors.password && (
                 <p className="text-danger">{errors.password.message}</p>
+              )}
+            </div>
+
+            {/* usertype selection */}
+            <div className="mb-3">
+              <label htmlFor="userType" className="form-label">
+                Select Usertype
+              </label>
+              <select
+                {...register("userType", { required: true })}
+                className="form-select form-select-lg border-primary"
+                id="userType"
+                style={{
+                  backgroundColor: "#f8f9fa",
+                  border: "1px solid #ced4da",
+                  padding: "0.5rem",
+                }}
+              >
+                <option value="admin">Admin</option>
+              </select>
+              {errors.userType && (
+                <p className="text-danger">{errors.userType.message}</p>
               )}
             </div>
 
@@ -107,14 +113,18 @@ const Form: React.FC<FormProps> = ({ setIsLoggedIn }) => {
                 type="submit"
                 style={{ marginTop: "10px" }}
               >
-                Login
+                Submit
               </button>
             </div>
           </form>
+          {/* Display success message if form submitted successfully */}
+          {submitSuccess && (
+            <div className="text-success mt-3">Admin created successfully!</div>
+          )}
         </div>
       </div>
     </div>
   );
 };
 
-export default Form;
+export default CreateAdmin;
