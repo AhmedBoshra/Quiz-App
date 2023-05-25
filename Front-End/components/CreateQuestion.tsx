@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Container, Form, Button } from "react-bootstrap";
 import axios from "axios";
+import { useAuth } from "../Contexts/AuthContext";
+import jwt from "jsonwebtoken";
 
 interface Answer {
   name: string;
@@ -9,6 +11,10 @@ interface Answer {
 }
 
 const CreateQuestionForm = () => {
+  const { token } = useAuth();
+  const decodedToken = jwt.decode(token);
+  console.log(decodedToken);
+
   // State for holding the form data
   const [formData, setFormData] = useState({
     name: "",

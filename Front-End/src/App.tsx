@@ -1,4 +1,5 @@
 import { Routes, Route } from "react-router-dom";
+import { AuthProvider } from "../Contexts/AuthContext";
 import SignUpForm from "../components/SignUpForm";
 import SignInForm from "../components/SignInForm";
 import Header from "../components/Header";
@@ -29,7 +30,14 @@ function App() {
         <Route path="/signup" element={<SignUpForm />} />
         <Route path="/questions/:id" element={<QuestionById />} />
         <Route path="/questions" element={<QuestionBankPage />} />
-        <Route path="/createquestion" element={<CreateQuestionForm />} />
+        <Route
+          path="/createquestion"
+          element={
+            <AuthProvider>
+              <CreateQuestionForm />
+            </AuthProvider>
+          }
+        />
         <Route path="/profile" element={<UserProfile />} />
         <Route path="/createadmin" element={<CreateAdmin />} />{" "}
         {/* Add CreateAdmin route */}

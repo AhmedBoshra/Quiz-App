@@ -36,6 +36,8 @@ const Form: React.FC<FormProps> = ({ setIsLoggedIn }) => {
         data
       );
       console.log(response.data);
+
+      const token = response.data.token;
       // Update authentication status
       setIsLoggedIn(true);
 
