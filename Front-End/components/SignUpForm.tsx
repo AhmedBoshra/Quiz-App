@@ -21,7 +21,7 @@ const Form = () => {
   const onSubmit = async (data: FieldValues) => {
     // sending data to database
     try {
-      await axios.post("http://localhost:3000/api/signup", data);
+      await axios.post("http://localhost:5000/api/signup", data);
       console.log("Form submitted successfully");
     } catch (error) {
       console.error("Error submitting form:", error);

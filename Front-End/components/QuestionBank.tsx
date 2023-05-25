@@ -29,6 +29,8 @@ const QuestionBankPage = () => {
   const [editingQuestion, setEditingQuestion] = useState<Question | null>(null);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [deletingQuestionId, setDeletingQuestionId] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [questionsPerPage] = useState(10); // Number of questions to display per page
 
   useEffect(() => {
     // Fetch the question data from the server
@@ -43,6 +45,30 @@ const QuestionBankPage = () => {
 
     fetchQuestions();
   }, []);
+
+  // Pagination
+  const indexOfLastQuestion = currentPage * questionsPerPage;
+  const indexOfFirstQuestion = indexOfLastQuestion - questionsPerPage;
+  const currentQuestions = questions.slice(
+    indexOfFirstQuestion,
+    indexOfLastQuestion
+  );
+
+  const paginate = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
+  };
+
+  const nextPage = () => {
+    if (currentPage < Math.ceil(questions.length / questionsPerPage)) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const prevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
 
   const handleEditClick = (question: Question) => {
     setEditingQuestion(question);
@@ -125,7 +151,7 @@ const QuestionBankPage = () => {
           </tr>
         </thead>
         <tbody>
-          {questions.map((question) => (
+          {currentQuestions.map((question) => (
             <React.Fragment key={question._id}>
               {editingQuestion?._id === question._id ? (
                 <QuestionEditor
@@ -179,7 +205,20 @@ const QuestionBankPage = () => {
           ))}
         </tbody>
       </table>
-      <div></div>
+      <div>
+        <button onClick={prevPage} disabled={currentPage === 1}>
+          Previous Page
+        </button>
+        <button
+          onClick={nextPage}
+          disabled={
+            currentPage === Math.ceil(questions.length / questionsPerPage)
+          }
+        >
+          Next Page
+        </button>
+        <div>Page {currentPage}</div>
+      </div>
     </div>
   );
 };

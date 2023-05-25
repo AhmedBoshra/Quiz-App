@@ -1,4 +1,5 @@
 const express = require("express");
+const teacher = require("../middlewares/teachers");
 const router = express.Router();
 const {
   getQuestionById,

@@ -8,7 +8,8 @@ import CreateQuestionForm from "../components/CreateQuestion";
 import EditQuestionForm from "../components/EditQuestions";
 import Navbar from "../components/Navbar";
 import { useState } from "react";
-import CreateAdmin from "../components/CreateAdmin"; // Import CreateAdmin component
+import CreateAdmin from "../components/CreateAdmin";
+import QuestionById from "../components/QuestionById";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -26,6 +27,7 @@ function App() {
           element={<SignInForm setIsLoggedIn={setIsLoggedIn} />}
         />
         <Route path="/signup" element={<SignUpForm />} />
+        <Route path="/questions/:id" element={<QuestionById />} />
         <Route path="/questions" element={<QuestionBankPage />} />
         <Route path="/createquestion" element={<CreateQuestionForm />} />
         <Route path="/profile" element={<UserProfile />} />
