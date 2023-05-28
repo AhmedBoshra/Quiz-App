@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import QuestionEditor from "./EditQuestions";
-import DeleteQuestion from "./DeleteQuestion";
 
 import React from "react";
 import DeleteConfirmation from "./DeleteQuestion";
@@ -171,8 +170,8 @@ const QuestionBankPage = () => {
                   <td>{question.createdBy}</td>
                   <td>
                     <ul>
-                      {question.answers.map((answer) => (
-                        <li key={answer.name}>
+                      {question.answers.map((answer, index) => (
+                        <li key={index}>
                           <strong>{answer.name}:</strong> {answer.description}
                         </li>
                       ))}

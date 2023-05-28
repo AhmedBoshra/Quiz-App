@@ -1,8 +1,7 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Container, Form, Button } from "react-bootstrap";
 import axios from "axios";
-import { useAuth } from "../Contexts/AuthContext";
-import jwt from "jsonwebtoken";
+import { AuthContext } from "../Contexts/AuthContext";
 
 interface Answer {
   name: string;
@@ -11,9 +10,7 @@ interface Answer {
 }
 
 const CreateQuestionForm = () => {
-  const { token } = useAuth();
-  const decodedToken = jwt.decode(token);
-  console.log(decodedToken);
+  const { token } = useContext(AuthContext);
 
   // State for holding the form data
   const [formData, setFormData] = useState({
@@ -58,6 +55,7 @@ const CreateQuestionForm = () => {
         ...updatedAnswers[index],
         [field]: value,
       };
+
       return {
         ...prevFormData,
         answers: updatedAnswers,
@@ -96,7 +94,8 @@ const CreateQuestionForm = () => {
       // Send the question data to the API
       const response = await axios.post(
         "http://localhost:3000/api/questions",
-        questionData
+        questionData,
+        { headers: { Authorization: token } }
       );
 
       // Handle the response and perform any necessary actions

@@ -1,4 +1,5 @@
 const { Question } = require("../models/question");
+const jwt = require("jsonwebtoken");
 
 // 1st API Create and Save question
 async function createQuestion(req, res) {
@@ -14,6 +15,19 @@ async function createQuestion(req, res) {
       createdBy,
       answers,
     } = req.body;
+
+    // Extract the token from the request headers
+    const token = req.headers.authorization;
+
+    // Verify and decode the token to access the payload
+    const decodedToken = jwt.verify(token, config.get("jwtPrivateKey"));
+
+    // Check if the userType is "teacher"
+    if (decodedToken.userType !== "teacher") {
+      return res
+        .status(403)
+        .json({ error: "You are not authorized to create a question." });
+    }
 
     // Create a new question object using the Question model
     const question = new Question({

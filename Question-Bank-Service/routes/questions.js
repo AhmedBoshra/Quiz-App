@@ -1,6 +1,8 @@
 const express = require("express");
 const teacher = require("../middlewares/teachers");
 const router = express.Router();
+const auth = require("../Authentication/Auth");
+
 const {
   getQuestionById,
   createQuestion,
@@ -10,6 +12,8 @@ const {
   deleteAnswerFromQuestion,
   deleteQuestion,
 } = require("../controllers/controllers");
+
+router.use(auth);
 
 // Create and Save question
 router.post("/questions", createQuestion);

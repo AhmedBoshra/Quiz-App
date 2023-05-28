@@ -2,8 +2,9 @@ import { FieldValues, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../Contexts/AuthContext";
 
 const schema = z.object({
   username: z.string().min(5),
@@ -17,6 +18,7 @@ interface FormProps {
 }
 
 const Form: React.FC<FormProps> = ({ setIsLoggedIn }) => {
+  const { setAuthToken } = useContext(AuthContext);
   const {
     register,
     handleSubmit,
@@ -40,7 +42,9 @@ const Form: React.FC<FormProps> = ({ setIsLoggedIn }) => {
       const token = response.data.token;
       // Update authentication status
       setIsLoggedIn(true);
-
+      if (setAuthToken) {
+        setAuthToken(token);
+      }
       navigate("/profile", {
         state: {
           username: response.data.username,
